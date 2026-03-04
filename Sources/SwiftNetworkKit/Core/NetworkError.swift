@@ -100,3 +100,31 @@ extension NetworkError {
         }
     }
 }
+
+// MARK: - Equatable
+extension NetworkError: Equatable {
+
+    public static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        switch (lhs, rhs) {
+        case (.invalidURL, .invalidURL),
+             (.invalidRequest, .invalidRequest),
+             (.noInternetConnection, .noInternetConnection),
+             (.timeout, .timeout),
+             (.cancelled, .cancelled),
+             (.unauthorized, .unauthorized),
+             (.forbidden, .forbidden),
+             (.notFound, .notFound),
+             (.conflict, .conflict),
+             (.unprocessableEntity, .unprocessableEntity),
+             (.tooManyRequests, .tooManyRequests),
+             (.noData, .noData):
+            return true
+        case (.serverError(let a), .serverError(let b)):
+            return a == b
+        case (.unexpectedStatusCode(let a), .unexpectedStatusCode(let b)):
+            return a == b
+        default:
+            return false
+        }
+    }
+}
